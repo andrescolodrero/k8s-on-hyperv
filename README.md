@@ -30,9 +30,11 @@ In all three terminals, run the following command to get the Kubernetes gpg key:
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 Then add it to your repository:
 
-cat << EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+<code> cat << EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
 deb https://apt.kubernetes.io/ kubernetes-xenial main
 EOF
+</code>
+
 Update the packages:
 
 sudo apt update
