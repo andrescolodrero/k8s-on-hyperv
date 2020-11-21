@@ -30,18 +30,24 @@ In all three terminals, run the following command to get the Kubernetes gpg key:
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 Then add it to your repository:
 
-<code> cat << EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+<code> 
+  cat << EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+  
 deb https://apt.kubernetes.io/ kubernetes-xenial main
+
 EOF
+
 </code>
 
 Update the packages:
-
+<code>
 sudo apt update
+  </code>
 Install Docker, kubelet, kubeadm, and kubectl.
 In all three terminals, run the following command to install Docker, kubelet, kubeadm, and kubectl:
-
+<code>
 sudo apt install -y docker-ce=5:19.03.10~3-0~ubuntu-focal kubelet=1.18.5-00 kubeadm=1.18.5-00 kubectl=1.18.5-00
+  </code>
 Initialize the Kubernetes cluster.
 In the Controller server terminal, run the following command to initialize the cluster using kubeadm:
 
