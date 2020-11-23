@@ -11,7 +11,7 @@ HyperV Virtual Switch:
 Create "Kubernetes-Switch" so we can use our Windows host to comunnicate to the k8s cluster, and the nodes can get packages from internet
 TODO: create 2 different interfaces.
 
-# Create Linux Ubuntu Nodes.
+# Create BAse Image for Linux Nodes/worker
 Idea: Create 3 machines. 1 master and 2 workers. Use etcd for storage and setup K8s Admin Dashboard.
 
 nstalling and Testing the Components of a Kubernetes Cluster
@@ -48,11 +48,23 @@ In all three terminals, run the following command to install Docker, kubelet, ku
 <code>
 sudo apt install -y docker-ce=5:19.03.10~3-0~ubuntu-focal kubelet=1.18.5-00 kubeadm=1.18.5-00 kubectl=1.18.5-00
   </code>
-Initialize the Kubernetes cluster.
-In the Controller server terminal, run the following command to initialize the cluster using kubeadm:
 
-sudo kubeadm init --pod-network-cidr=10.244.0.0/16
-Set up local kubeconfig.
+Turnoff 
+sudo swapoff -a
+To persist changes, uncomment swap in etc/fstab
+Add the iptables rule to sysctl.conf:
+echo "net.bridge.bridge-nf-call-iptables=1" | sudo tee -a /etc/sysctl.conf
+Enable iptables immediately:
+
+sudo sysctl -p
+
+# Create KUbernetes Master
+
+Initialize the Kubernetes cluster.
+In the Controller server terminal, run the following command to initialize the cluster using kubeadm/
+
+sudo kubeadm init --pod-network-cidr=[your cidr], bye example:172.29.0.0/16
+### Set up local kubeconfig.
 In the Controller server terminal, run the following commands to set up local kubeconfig:
 
 sudo mkdir -p $HOME/.kube
@@ -60,7 +72,9 @@ sudo mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
 Apply the flannel CNI plugin as a network overlay.
+An overlay network abstracts a physical (underlay) network to create a virtual network. It provides simpler interface by hiding complexities of the underlay.
 In the Controller server terminal, run the following command to apply flannel:
 
 kubectl apply -f https://docs.projectcalico.org/v3.14/manifests/calico.yaml
@@ -70,10 +84,22 @@ When we ran sudo kubeadm init on the Controller node, there was a kubeadmin join
 You can now join any number of machines by running the following on each node as root:
 To join worker nodes to the cluster, we need to run that command, as root (we'll just preface it with sudo) on each of them. It should look something like this:
 
+if forget, recreate the join command:
+kubeadm token create --print-join-command
+
 sudo kubeadm join <your unique string from the output of kubeadm init>
 Run a deployment that includes at least one pod, and verify it was successful.
 In the Controller server terminal, run the following command to run a deployment of ngnix:
 
+# Test Deployment
+To check if the new node enjoy the cluster:
+Kubectl get nodes
+andres@masterk8s:~$ kubectl get nodes
+NAME        STATUS   ROLES    AGE   VERSION
+masterk8s   Ready    master   13h   v1.18.5
+node1-k8s   Ready    <none>   13h   v1.18.5
+
+We could test now a deployment
 kubectl create deployment nginx --image=nginx
 Verify its success:
 
