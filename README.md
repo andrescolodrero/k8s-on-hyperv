@@ -108,6 +108,7 @@ Verify the pod is running and available.
 In the Controller server terminal, run the following command to verify the pod is up and running:
 
 kubectl get pods
+
 Use port forwarding to extend port 80 to 8081, and verify access to the pod directly.
 In the Controller server terminal, run the following command to forward the container port 80 to 8081 (replace <pod_name> with the name in the output from the previous command):
 
@@ -123,6 +124,7 @@ In the original Controller server terminal, hit Ctrl+C to exit out of the runnin
 Still in Controller, execute the nginx version command from a pod (using the same <pod_name> as before):
 
 kubectl exec -it <pod_name> -- nginx -v
+
 Create a service, and verify connectivity on the node port.
 In the original Controller server terminal, run the following command to create a NodePort service:
 
