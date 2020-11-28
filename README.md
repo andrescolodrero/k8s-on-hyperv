@@ -14,20 +14,23 @@ TODO: create 2 different interfaces.
 # Create BAse Image for Linux Nodes/worker
 Idea: Create 3 machines. 1 master and 2 workers. Use etcd for storage and setup K8s Admin Dashboard.
 
-nstalling and Testing the Components of a Kubernetes Cluster
+Installing and Testing the Components of a Kubernetes Cluster
 
 
 Get the Docker gpg, and add it to your repository.
 In all three terminals, run the following command to get the Docker gpg key:
 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
 Then add it to your repository:
 
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
 Get the Kubernetes gpg key, and add it to your repository.
 In all three terminals, run the following command to get the Kubernetes gpg key:
 
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+
 Then add it to your repository:
 
 <code> 
